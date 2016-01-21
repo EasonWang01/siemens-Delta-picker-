@@ -36,7 +36,10 @@
 <script id="manualpage" type="text/x-handlebars-template">
  
 <script>
-$("#navbar").hide();
+$(document).ready(function(){
+$("#flex1").hide();
+})
+
 
 function flag(){
 
@@ -72,7 +75,237 @@ function motor(){
      break;
 }
 }
+
+$("#manualcontrol").click(function() {
+      $("#flex1").toggle();
+});
 <{{!}}/script>
+
+<style>
+/* 四個圓按鈕 */
+  .roundbutton{
+    outline:0;
+    text-shadow:0 0 7px #fff;
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    border:none;
+    box-shadow: 0 1px 5px rgba(255,255,255,.5) inset,0 -2px 5px rgba(0,0,0,.3) inset,0 3px 8px rgba(0,0,0,.8);
+    background:white
+  }
+  .roundbutton:active{
+    box-shadow: 0 2px 7px rgba(0,0,0,.5) inset,0 -3px 10px rgba(0,0,0,.1) inset,0 1px 3px rgba(255,255,255,.5);
+
+
+  }
+
+/* 方向鍵 :after為長方形 */
+.up,.right,.down,.left,.zup,.zdown {
+  transition: all 0.5s ease;
+  position: absolute;
+  height: 0;
+  width: 0;
+  border: 40px solid transparent;/* 箭頭 */
+}
+.up:after,.right:after,.down:after,.left:after,.zup:after,.zdown:after {
+  transition: all 0.5s ease;
+  background-color: #206060;
+}
+.up:hover:after,.right:hover:after,.down:hover:after,.left:hover:after,.zup:hover:after,.zdown:hover:after {
+  background-color: #40bfbf;
+}
+.up:active:after,.right:active:after,.down:active:after,.left:active:after,.zup:active:after,.zdown:active:after {
+  background-color: #80ffff;
+}
+.up {
+  top: -20px;
+  left: 108px;
+  border-bottom-color: #206060;
+  z-index:10;
+  
+}
+.up:hover {
+  border-bottom-color: #40bfbf;
+}
+.up:active {
+  border-bottom-color: #80ffff;
+}
+.up:after {
+  content: "";
+  display: block;
+  height: 85px;
+  width: 40px;
+  margin-left: -21px;
+  margin-top: 30px;
+}
+.right {
+  top: 98px;
+  left: 230px;
+  border-left-color: #206060;
+}
+.right:hover {
+  border-left-color: #40bfbf;
+}
+.right:active {
+  border-left-color: #80ffff;
+}
+.right:after {
+  content: "";
+  display: block;
+  height: 40px;
+  width: 100px;
+  margin-left: -130px;
+  margin-top: -23px;
+}
+.down {
+  top: 215px;
+  left: 107px;
+  border-top-color: #206060;
+  z-index:10;
+}
+.down:hover {
+  border-top-color: #40bfbf;
+}
+.down:active {
+  border-top-color: #80ffff;
+}
+.down:after {
+  content: "";
+  display: block;
+  height: 85px;
+  width: 40px;
+  margin-left: -20px;
+  margin-top: -120px;
+}
+.left {
+  top: 100px;
+  left: -20px;
+  border-right-color: #206060;
+}
+.left:hover {
+  border-right-color: #40bfbf;
+}
+.left:active {
+  border-right-color: #80ffff;
+}
+.left:after {
+  content: "";
+  display: block;
+  height: 40px;
+  width: 100px;
+  margin-left: 30px;
+  margin-top: -25px;
+}
+
+/*    Z軸  */
+.zup {
+  top: -20px;
+  left: 340px;
+  border-bottom-color: #206060;
+  z-index:10;
+  
+}
+.zup:hover {
+  border-bottom-color: #40bfbf;
+}
+.zup:active {
+  border-bottom-color: #80ffff;
+}
+.zup:after {
+  content: "";
+  display: block;
+  height: 75px;
+  width: 40px;
+  margin-left: -21px;
+  margin-top: 30px;
+}
+.zdown {
+  top: 215px;
+  left: 339px;
+  border-top-color: #206060;
+  z-index:10;
+}
+.zdown:hover {
+  border-top-color: #40bfbf;
+}
+.zdown:active {
+  border-top-color: #80ffff;
+}
+.zdown:after {
+  content: "";
+  display: block;
+  height: 70px;
+  width: 40px;
+  margin-left: -20px;
+  margin-top: -110px;
+}
+
+/*    下方箭頭   */
+
+
+.arrow {
+  display: inline-block;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: transparent;
+  
+  border-top: 2px solid #bfbfbf;
+  border-left: 2px solid #bfbfbf;
+  transition: all .3s ease-in-out;
+  text-decoration: none;
+  color: transparent;
+}
+.arrow:hover {
+  border-color: gray;
+  border-width: 6px;
+}
+.arrow:active {
+  border-color: #33ffff;
+  border-width: 6px;
+}
+.arrow:before {
+  display: block;
+  height: 200%;
+  width: 200%;
+  margin-left: -50%;
+  margin-top: -50%;
+  content: "";
+  transform: rotate(45deg);
+}
+.arrow.prev {
+  transform: rotate(-45deg);
+  left: 0;
+}
+.arrow.next {
+  transform: rotate(135deg);
+  right: 0;
+}
+
+
+/*    設定之Flexbox框框   */
+
+.flex-container {
+  z-index:10000;
+  overflow:scroll;
+  position:absolute;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    width: 300px;
+    height: 350px;
+    background-color: lightgrey;
+}
+
+.flex-item {
+    background-color: cornflowerblue;
+    width: 100px;
+    height: 40px;
+    margin: 10px;
+}
+</style>
+
 
 <div style="position:absolute;top:150px">
     
@@ -81,6 +314,7 @@ function motor(){
       <fieldset>
         
         <button class="superBtn" id="super" style="color:white" onclick="flag()">緊急停止</button>
+
       </fieldset>
 
       <fieldset style="position:absolute;top:150px">        
@@ -119,9 +353,71 @@ function motor(){
     <button id="octu1"style="width:100px;height:40px;border-radius:120px;
     background: linear-gradient(#00b2b3, #4dffff);color:white;font-size:25px;text-shadow: 2px 2px 8px black;outline:0">保留2</button>
     </div>
-<fieldset style="position:absolute;left:800px">
-asd
+<fieldset style="position:absolute;left:750px;width:400px;height:400px;top:-30px">
+  <button type="button" class="roundbutton">暫停停止</button>
+  <button type="button" class="roundbutton" style="margin-left:15px">原點復歸</button>
+  <button type="button" id= "manualcontrol"class="roundbutton" style="margin-left:15px">手動速度</button>
+  <button type="button" id= "manualpos" class="roundbutton" style="margin-left:15px">手動定位</button>
+
+
+
+<div id="flex1" class="flex-container">
+<div class="flex-item" style=" visibility: hidden;"></div>
+<div class="flex-item"><p style="position:absolute;top:-30px;left:145px">速度</p></div>
+  <div class="flex-item"><p style="position:absolute;top:30px;left:15px">X軸</p></div>
+  <input class="flex-item"></input>
+  <div class="flex-item"><p style="position:absolute;top:95px;left:15px">Y1</p></div>  
+  <input class="flex-item"></input>
+  <div class="flex-item"><p style="position:absolute;top:160px;left:15px">Z1</p></div>
+  <input class="flex-item"></input> 
+  <div class="flex-item"><p style="position:absolute;top:225px;left:15px">Y2</p></div>
+  <input class="flex-item"></input> 
+  <div class="flex-item"><p style="position:absolute;top:290px;left:15px">Z2</p></div>
+  <input class="flex-item"></input> 
+</div>
+
+
 </fieldset>
+<fieldset style="width:400px;height:250px;position:absolute;left:750px;top:120px">
+  <div>
+  <span class="up"></span><p style="position:absolute;top:-10px;left:140px;z-index:15;height:0px;">Y+</p>
+  <span class="right"></span><p style="position:absolute;top:75px;left:230px;z-index:15;height:0px;">X+</p>
+  <span class="down"></span><p style="position:absolute;top:170px;left:140px;z-index:15;height:0px;">Y-</p>
+  <span class="left"></span><p style="position:absolute;top:75px;left:40px;z-index:15;height:0px;">X-</p>
+
+  <span class="zup"></span><p style="position:absolute;top:-10px;left:370px;z-index:15;height:0px;">Z+</p>
+  <span class="zdown"></span><p style="position:absolute;top:170px;left:375px;z-index:15;height:0px;">Z-</p>
+  </div>
+</fieldset >
+<div style="position:absolute;top:380px;width:160px;height:80px;border-radius: 25px;
+    border: 1px solid black;border-style: dashed;">
+<a href="#" title="Previous" class="arrow next" style="position:absolute;left:115px;top:25px;"> </a>
+<p style="position:absolute;left:25px;top:16px;">-A1</p>
+<a href="#" title="Next" class="arrow prev"style="position:absolute;left:15px;top:25px;"></a>
+<p style="position:absolute;left:100px;top:16px;">+A1</p>
+</div >
+<div style="position:absolute;top:380px;left:160px;width:160px;height:80px;border-radius: 25px;
+    border: 1px solid black;border-style: dashed;">
+<a href="#" title="Previous" class="arrow next" style="position:absolute;left:115px;top:25px;"></a>
+<p style="position:absolute;left:25px;top:16px;">-A2</p>
+<a href="#" title="Next" class="arrow prev"style="position:absolute;left:15px;top:25px;"></a>
+<p style="position:absolute;left:100px;top:16px;">+A2</p>
+</div >
+<div style="position:absolute;top:380px;left:320px;width:160px;height:80px;border-radius: 25px;
+    border: 1px solid black;border-style: dashed;">
+<a href="#" title="Previous" class="arrow next" style="position:absolute;left:115px;top:25px;"></a>
+<p style="position:absolute;left:25px;top:16px;">-A3</p>
+<a href="#" title="Next" class="arrow prev"style="position:absolute;left:15px;top:25px;"></a>
+<p style="position:absolute;left:100px;top:16px;">+A3</p>
+
+</div >
+<div  style="position:absolute;top:380px;width:160px;left:550px;height:80px;border-radius: 25px;
+    border: 1px solid black;border-style: dashed;">
+<a href="#" title="Previous" class="arrow next" style="position:absolute;left:115px;top:25px;"></a>
+<p style="position:absolute;left:25px;top:16px;">-W</p>
+<a href="#" title="Next" class="arrow prev" style="position:absolute;left:15px;top:25px;"></a>
+<p style="position:absolute;left:100px;top:16px;">+W</p>
+</div >
 </div>
 </script>
 <!--  /////////////////////////////////// 
@@ -142,7 +438,6 @@ asd
 
  
 <script>
-$("#navbar").hide();
 
 function flag(){
 
@@ -340,7 +635,7 @@ var openflag=true;////讀是否開啟之值
             </div>
 
         <div>
-          <button  style="border: none;
+          <button  id="ninja" style="border: none;
           background: none;outline: none;right:150px;position:absolute" class="ninja-btn" title="menu"><span></span></button>
 
 
