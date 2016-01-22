@@ -38,6 +38,7 @@
 <script>
 $(document).ready(function(){
 $("#flex1").hide();
+$("#flex2").hide();
 })
 
 
@@ -78,6 +79,9 @@ function motor(){
 
 $("#manualcontrol").click(function() {
       $("#flex1").toggle();
+});
+$("#manualpos").click(function() {
+      $("#flex2").toggle();
 });
 <{{!}}/script>
 
@@ -361,7 +365,7 @@ $("#manualcontrol").click(function() {
 
 
 
-<div id="flex1" class="flex-container">
+<div id="flex1" class="flex-container" style="left:-100px;">
 <div class="flex-item" style=" visibility: hidden;"></div>
 <div class="flex-item"><p style="position:absolute;top:-30px;left:145px">速度</p></div>
   <div class="flex-item"><p style="position:absolute;top:30px;left:15px">X軸</p></div>
@@ -373,6 +377,23 @@ $("#manualcontrol").click(function() {
   <div class="flex-item"><p style="position:absolute;top:225px;left:15px">Y2</p></div>
   <input class="flex-item"></input> 
   <div class="flex-item"><p style="position:absolute;top:290px;left:15px">Z2</p></div>
+  <input class="flex-item"></input> 
+</div>
+
+<div id="flex2" class="flex-container" style="top:110px;left:150px;">
+<div class="flex-item" style=" visibility: hidden;"></div>
+<div class="flex-item"><p style="position:absolute;top:-30px;left:145px">位置</p></div>
+  <div class="flex-item"><p style="position:absolute;top:30px;left:15px">A1移動</p></div>
+  <input class="flex-item"></input>
+  <div class="flex-item"><p style="position:absolute;top:95px;left:15px">A2移動</p></div>  
+  <input class="flex-item"></input>
+  <div class="flex-item"><p style="position:absolute;top:160px;left:15px">A3移動</p></div>
+  <input class="flex-item"></input> 
+  <div class="flex-item"><p style="position:absolute;top:225px;left:15px">X</p></div>
+  <input class="flex-item"></input> 
+  <div class="flex-item"><p style="position:absolute;top:290px;left:15px">Y</p></div>
+  <input class="flex-item"></input> 
+  <div class="flex-item"><p style="position:absolute;top:355px;left:15px">Z</p></div>
   <input class="flex-item"></input> 
 </div>
 
@@ -546,7 +567,30 @@ function flag(){
 
  /////////////////////////////////////////// -->
 
+<!--  /////////////////////////////////// 
 
+影像頁開始
+
+
+ /////////////////////////////////////////// -->
+
+
+<script id="capturepage" type="text/x-handlebars-template">
+
+
+
+
+
+
+</script>
+
+
+ <!--  /////////////////////////////////// 
+
+影像頁結束
+
+
+ /////////////////////////////////////////// -->
 
 
 
@@ -558,10 +602,12 @@ $( document ).ready(function () {
   // Compile the template
    theTemplate = Handlebars.compile($("#address-template").html());
    theTemplate1 = Handlebars.compile($("#manualpage").html());
+   // 缺編輯頁
+   theTemplate3 = Handlebars.compile($("#capturepage").html());
 
 
   // Add the compiled html to the page 初始畫面設定
-  $('#content-inner').html(theTemplate1());
+  $('#content-inner').html(theTemplate3());
 });
 </script>
 
@@ -645,13 +691,12 @@ var openflag=true;////讀是否開啟之值
                 <input  type="button" value="狀態頁"  onclick="$('#content-inner').html(theTemplate());"  style="width:168px; height:38px; margin-left:45px; margin-top:50px; font-size:20px; font-weight:bold;"/>
                 <input  type="button" value="手動頁" onclick="$('#content-inner').html(theTemplate1());" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
                 <input  type="button" value="編輯頁" onclick="" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
-                <input  type="button" value="影像頁" onclick="" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
+                <input  type="button" value="影像頁" onclick="$('#content-inner').html(theTemplate3());" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
                 <input  type="button" value="監視頁" onclick="" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
                 <input  type="button" value="警報頁" onclick="" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
                 <input  type="button" value="參數頁" onclick="" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
           </div>
         </div>
-
 
 <div id="content-inner">
   <!-- template layout -->  
