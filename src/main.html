@@ -34,12 +34,66 @@
 
 
 <script id="manualpage" type="text/x-handlebars-template">
- 
+ <script  >
+
+/*可滑動之navbar 開始*/
+document.getElementById('navbar').onmousedown = function () {
+    _drag_init(this);
+    return false;
+};
+
+var selected = null, // Object of the element to be moved
+    x_pos = 0, y_pos = 0, // Stores x & y coordinates of the mouse pointer
+    x_elem = 0, y_elem = 0; // Stores top, left values (edge) of the element
+
+// Will be called when user starts dragging an element
+function _drag_init(elem) {
+    // Store the object of the element which needs to be moved
+    selected = elem;
+    x_elem = x_pos - selected.offsetLeft;
+    y_elem = y_pos - selected.offsetTop;
+}
+
+// Will be called when user dragging an element
+function _move_elem(e) {
+    x_pos = document.all ? window.event.clientX : e.pageX;
+    y_pos = document.all ? window.event.clientY : e.pageY;
+    if (selected !== null) {
+        selected.style.left = (x_pos - x_elem) + 'px';
+        selected.style.top = (y_pos - y_elem) + 'px';
+    }
+}
+
+// Destroy the object when we are done
+function _destroy() {
+    selected = null;
+}
+
+// Bind the functions...
+
+
+document.onmousemove = _move_elem;
+document.onmouseup = _destroy;
+
+/*可滑動之navbar 結束 */
+
+  <{{!}}/script>
 <script>
 $(document).ready(function(){
 $("#flex1").hide();
 $("#flex2").hide();
-})
+document.getElementById('flex1').onmousedown = function () {
+    _drag_init(this);
+    return false;
+
+};
+
+document.getElementById('flex2').onmousedown = function () {
+    _drag_init(this);
+    return false;
+
+};
+});
 
 
 function flag(){
@@ -326,9 +380,9 @@ $("#manualpos").click(function() {
       </fieldset>
 
       <fieldset>
-        <div style="text-align:center;">
-        <h2 style="color:white" >控制模式</h2>
-           </div>
+        <div style="text-align:center;color:#00FFCC">
+        <h2>控制模式</h2>
+        </div>
         <!-- Radio one -->
         <div style="margin-top:-25px" >
         <input type='radio' id='radio1-1' checked='checked' name='radio'>
@@ -364,21 +418,43 @@ $("#manualpos").click(function() {
   <button type="button" id= "manualpos" class="roundbutton" style="margin-left:15px">手動定位</button>
 
 
+<div id="flex1" class="flex-container" style="left:-500px; width: 650px;
+    height: 400px;">
+<div class="flex-item" style=" visibility: hidden;">flex item </div>
+<div class="flex-item"><p style="position:absolute;top:-40px">速度</p></div>
+  <div class="flex-item"><p style="position:absolute;top:-40px">加速度</p></div>
+  <div class="flex-item"><p style="position:absolute;top:-40px">減速度</p></div>
+  <div class="flex-item"><p style="position:absolute;top:-40px">加速度</p></div>
+    <div class="flex-item"><p style="position:absolute;top:15px">A1軸</p></div>  
+   <input class="flex-item"></input>
+   <input class="flex-item"></input>
+  <input class="flex-item"></input>
+ <input class="flex-item"></input>
+  <div class="flex-item"><p style="position:absolute;top:85px">A2軸</p></div> 
+   <input class="flex-item"></input>
+   <input class="flex-item"></input>
+  <input class="flex-item"></input>
+ <input class="flex-item"></input>
+  <div class="flex-item"><p style="position:absolute;top:155px">A3軸</p></div> 
+   <input class="flex-item"></input>
+   <input class="flex-item"></input>
+  <input class="flex-item"></input>
+ <input class="flex-item"></input>
 
-<div id="flex1" class="flex-container" style="left:-100px;">
-<div class="flex-item" style=" visibility: hidden;"></div>
-<div class="flex-item"><p style="position:absolute;top:-30px;left:145px">速度</p></div>
-  <div class="flex-item"><p style="position:absolute;top:30px;left:15px">X軸</p></div>
+  <div class="flex-item"><p style="position:absolute;top:225px">W軸</p></div> 
+   <input class="flex-item"></input>
+   <input class="flex-item"></input>
   <input class="flex-item"></input>
-  <div class="flex-item"><p style="position:absolute;top:95px;left:15px">Y1</p></div>  
+ <input class="flex-item"></input>
+
+  <div class="flex-item"><p style="position:absolute;top:290px">路徑</p></div> 
+   <input class="flex-item"></input>
+   <input class="flex-item"></input>
   <input class="flex-item"></input>
-  <div class="flex-item"><p style="position:absolute;top:160px;left:15px">Z1</p></div>
-  <input class="flex-item"></input> 
-  <div class="flex-item"><p style="position:absolute;top:225px;left:15px">Y2</p></div>
-  <input class="flex-item"></input> 
-  <div class="flex-item"><p style="position:absolute;top:290px;left:15px">Z2</p></div>
-  <input class="flex-item"></input> 
+ <input class="flex-item"></input>
+
 </div>
+
 
 <div id="flex2" class="flex-container" style="top:110px;left:150px;">
 <div class="flex-item" style=" visibility: hidden;"></div>
@@ -401,43 +477,43 @@ $("#manualpos").click(function() {
 </fieldset>
 <fieldset style="width:400px;height:250px;position:absolute;left:750px;top:120px">
   <div>
-  <span class="up"></span><p style="position:absolute;top:-10px;left:140px;z-index:15;height:0px;">Y+</p>
-  <span class="right"></span><p style="position:absolute;top:75px;left:230px;z-index:15;height:0px;">X+</p>
-  <span class="down"></span><p style="position:absolute;top:170px;left:140px;z-index:15;height:0px;">Y-</p>
-  <span class="left"></span><p style="position:absolute;top:75px;left:40px;z-index:15;height:0px;">X-</p>
+  <span class="up"></span><p style="position:absolute;top:-15px;left:135px;z-index:15;height:0px;">Y+</p>
+  <span class="right"></span><p style="position:absolute;top:70px;left:230px;z-index:15;height:0px;">X+</p>
+  <span class="down"></span><p style="position:absolute;top:165px;left:135px;z-index:15;height:0px;">Y-</p>
+  <span class="left"></span><p style="position:absolute;top:70px;left:40px;z-index:15;height:0px;">X-</p>
 
-  <span class="zup"></span><p style="position:absolute;top:-10px;left:370px;z-index:15;height:0px;">Z+</p>
-  <span class="zdown"></span><p style="position:absolute;top:170px;left:375px;z-index:15;height:0px;">Z-</p>
+  <span class="zup"></span><p style="position:absolute;top:-15px;left:370px;z-index:15;height:0px;">Z+</p>
+  <span class="zdown"></span><p style="position:absolute;top:165px;left:370px;z-index:15;height:0px;">Z-</p>
   </div>
 </fieldset >
 <div style="position:absolute;top:380px;width:160px;height:80px;border-radius: 25px;
     border: 1px solid black;border-style: dashed;">
 <a href="#" title="Previous" class="arrow next" style="position:absolute;left:115px;top:25px;"> </a>
-<p style="position:absolute;left:25px;top:16px;">-A1</p>
+<p style="position:absolute;left:25px;top:15px">-A1</p>
 <a href="#" title="Next" class="arrow prev"style="position:absolute;left:15px;top:25px;"></a>
-<p style="position:absolute;left:100px;top:16px;">+A1</p>
+<p style="position:absolute;left:90px;top:15px">+A1</p>
 </div >
 <div style="position:absolute;top:380px;left:160px;width:160px;height:80px;border-radius: 25px;
     border: 1px solid black;border-style: dashed;">
 <a href="#" title="Previous" class="arrow next" style="position:absolute;left:115px;top:25px;"></a>
-<p style="position:absolute;left:25px;top:16px;">-A2</p>
+<p style="position:absolute;left:25px;top:15px">-A2</p>
 <a href="#" title="Next" class="arrow prev"style="position:absolute;left:15px;top:25px;"></a>
-<p style="position:absolute;left:100px;top:16px;">+A2</p>
+<p style="position:absolute;left:90px;top:15px">+A2</p>
 </div >
 <div style="position:absolute;top:380px;left:320px;width:160px;height:80px;border-radius: 25px;
     border: 1px solid black;border-style: dashed;">
 <a href="#" title="Previous" class="arrow next" style="position:absolute;left:115px;top:25px;"></a>
-<p style="position:absolute;left:25px;top:16px;">-A3</p>
+<p style="position:absolute;left:25px;top:15px">-A3</p>
 <a href="#" title="Next" class="arrow prev"style="position:absolute;left:15px;top:25px;"></a>
-<p style="position:absolute;left:100px;top:16px;">+A3</p>
+<p style="position:absolute;left:90px;top:15px">+A3</p>
 
 </div >
 <div  style="position:absolute;top:380px;width:160px;left:550px;height:80px;border-radius: 25px;
     border: 1px solid black;border-style: dashed;">
 <a href="#" title="Previous" class="arrow next" style="position:absolute;left:115px;top:25px;"></a>
-<p style="position:absolute;left:25px;top:16px;">-W</p>
+<p style="position:absolute;left:25px;top:15px">-W</p>
 <a href="#" title="Next" class="arrow prev" style="position:absolute;left:15px;top:25px;"></a>
-<p style="position:absolute;left:100px;top:16px;">+W</p>
+<p style="position:absolute;left:90px;top:15px">+W</p>
 </div >
 </div>
 </script>
@@ -541,7 +617,7 @@ function flag(){
 
       <fieldset>
         <div style="text-align:center;">
-        <h2 style="color:white" >控制模式</h2>
+        <h2 style="color:#00FFCC" >控制模式</h2>
            </div>
         <!-- Radio one -->
         <div style="margin-top:-25px" >
@@ -577,13 +653,46 @@ function flag(){
 
 <script id="capturepage" type="text/x-handlebars-template">
 
+<style>
+table, th, td {
+    border: none;
+    
+}
+th, td {
+  border: 1px solid black;
+    padding: 15px;
+    width:auto;
+    background:orange;
+}
+</style>
+<div>
+<table style="width:auto;position:absolute;top:170px;left:60px;border-spacing: 30px;empty-cells: hide;">
+  <tr>
+    <td></td>
+    <td>影像座標</td>    
+    <td>絕對座標</td>
+  </tr>
+  <tr>
+    <td>X</td>
+    <td>  </td>    
+    <td></td>
+  </tr>
+  <tr>
+    <td>Y</td>
+    <td></td>    
+    <td></td>
+  </tr>
+    <tr>
+    <td>Z</td>
+    <td></td>    
+    <td></td>
+  </tr>
+</table>
+</div>
 
-
-
-
+<img src="../pic/cap.png" alt="Smiley face" height="300" width="300" style="position:absolute;top:200px;left:550px">
 
 </script>
-
 
  <!--  /////////////////////////////////// 
 
@@ -591,10 +700,615 @@ function flag(){
 
 
  /////////////////////////////////////////// -->
+ <!--  /////////////////////////////////// 
+
+監測頁開始
+
+
+ /////////////////////////////////////////// -->
+
+<script id="monitorpage" type="text/x-handlebars-template">
+
+
+<script>
+
+$(document).ready(function(){
+ 
+$("#monitorstatus").hide();
+$("#btn1").click(function(){
+$("#monitorstatus").toggle();
+
+$("#monitorio").hide();
+$("#monitorotherio").hide();
+});
+
+
+$("#monitorio").hide();
+$("#btn2").click(function(){
+$("#monitorio").toggle();
+$("#monitorotherio").hide();
+$("#monitorstatus").hide();
+
+});
+
+
+$("#monitorotherio").hide();
+$("#btn3").click(function(){
+$("#monitorotherio").toggle();
+
+$("#monitorstatus").hide();
+$("#monitorio").hide();
+});
+
+
+
+});
+<{{!}}/script>
+
+
+<style>
+#btn1,#btn2,#btn3{
+  background: #3399ff;
+}
+</style>
+<style>
+table, th, td {
+    border: 1px solid black;
+border-spacing:10px;
+   
+}
+th, td {
+width:80px;
+height:30px;   
+ padding: 5px;
+    text-align: left;
+}
+.inp{
+  width:60px;
+}
+</style>
+<button id="btn1"  style="position:absolute;width:150px;height:50px;left:130px;top:600px;font-size:20px">機械手狀態</button>
+<button id="btn2" style="position:absolute;width:150px;height:50px;left:530px;top:600px;font-size:20px">機械手I/O </button>
+<button id="btn3" style="position:absolute;width:150px;height:50px;left:930px;top:600px;font-size:20px">周邊設備</button>
+
+<div id="monitorstatus">
+<div style=
+"position:absolute;top:150px;left:260px;background:white;width:180px;height:20px;text-align:center">
+機械手-參數/設置資訊
+</div>
+
+
+<table style="position:absolute;top:200px;background:white;left:130px">
+ 
+  <tr>
+    <th>使用者</th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+     <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+</table>
+
+<div style=
+"position:absolute;top:150px;left:770px;background:white;width:180px;height:20px;text-align:center">
+機械手-統計資訊
+</div>
+<table style="position:absolute;top:200px;background:white;left:650px">
+ 
+  <tr>
+    <th>循環週期</th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+     <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+</table>
+</div>
+
+
+
+<div id="monitorio">
+<div style=
+"position:absolute;top:150px;left:260px;background:white;width:180px;height:20px;text-align:center">
+機械手-輸入訊號
+</div>
+
+
+<table style="position:absolute;top:200px;background:white;left:130px">
+ 
+  <tr>
+    <th>吸盤01限</th>
+    <th>吸盤02限</th>
+    <th>吸盤03限</th>
+    <th>吸盤04限</th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+     <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+</table>
+
+<div style=
+"position:absolute;top:150px;left:770px;background:white;width:180px;height:20px;text-align:center">
+機械手-輸出訊號
+</div>
+<table style="position:absolute;top:200px;background:white;left:650px">
+ 
+  <tr>
+    <th>吸盤01</th>
+    <th>吸盤02</th>
+    <th>吸盤03</th>
+    <th>吸盤04</th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+     <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+</table>
+</div>
+
+
+
+<div id="monitorotherio">
+<div style=
+"position:absolute;top:150px;left:260px;background:white;width:180px;height:20px;text-align:center">
+周邊設備-輸入訊號
+</div>
+
+
+<table style="position:absolute;top:200px;background:white;left:130px">
+ 
+  <tr>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+     <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+</table>
+
+<div style=
+"position:absolute;top:150px;left:770px;background:white;width:180px;height:20px;text-align:center">
+周邊設備-輸出訊號
+</div>
+<table style="position:absolute;top:200px;background:white;left:650px">
+ 
+  <tr>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+     <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+  <tr>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <td><input  class="inp" readonly="readonly" style="border:none"></input></td>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+    <th><input  class="inp" readonly="readonly" style="border:none"></input></th>
+  </tr>
+</table>
+</div>
+</script>
+  <!--  /////////////////////////////////// 
+
+監測頁結束
+
+
+ /////////////////////////////////////////// -->
+  <!--  /////////////////////////////////// 
+
+警報頁開始
+
+
+ /////////////////////////////////////////// -->
+<script id="alertpage" type="text/x-handlebars-template">
+<div id="div_Content" style="position:absolute;top:150px;left:50px">
+    <div style="width:1024px; height:35px;  margin-left:10px; padding-top:10px;">
+      <table border="1px" bordercolor="#5bafdb" cellspacing="0px" style="width:995px; border-collapse:collapse">
+        <tr style="height:35px;">
+          <td style="width:80px; text-align:center;color:#00ffff ;font-weight:bold;">序號</td>
+          <td style="width:80px; text-align:center; font-weight:bold;color:#00ffff ;">代碼</td>
+          <td style="width:100px; text-align:center; font-weight:bold;color:#00ffff ;">來源</td>
+          <td style="width:100px; text-align:center; font-weight:bold;color:#00ffff ;">種類</td>
+          <td style="width:350px; text-align:center; font-weight:bold;color:#00ffff ;">警報說明</td>
+          <td style="text-align:center; font-weight:bold;color:#00ffff ;">發生時間</td>
+        </tr>
+      </table>
+    </div>
+    <div style="width:1024; height:501px; overflow-y:auto; ">
+      <table id="tab_Alarm" border="1px" bordercolor="#5bafdb" cellspacing="0px"  style="width:995px; height:500px; margin-left:10px; border-collapse:collapse">
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+        <tr style="height:30px;">
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:80px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:100px; text-align:center;"></td>
+          <td style="width:350px; text-align:center;"></td>
+          <td style="text-align:center;"></td>
+        </tr>
+      </table>
+    </div>
+
+
+
+</script>
+
+  <!--  /////////////////////////////////// 
+
+警報頁結束
+
+
+ /////////////////////////////////////////// -->
+
+
+  <!--  /////////////////////////////////// 
+
+參數頁開始
+
+
+ /////////////////////////////////////////// -->
+<script id="parameterpage" type="text/x-handlebars-template">
 
 
 
 
+
+</script>
+<!--/////////////////////////////////// 
+
+參數頁結束
+
+
+ /////////////////////////////////////////// -->
 <script>
 $( document ).ready(function () {
   // Grab the template script
@@ -604,10 +1318,12 @@ $( document ).ready(function () {
    theTemplate1 = Handlebars.compile($("#manualpage").html());
    // 缺編輯頁
    theTemplate3 = Handlebars.compile($("#capturepage").html());
-
+   theTemplate4 = Handlebars.compile($("#monitorpage").html());
+   theTemplate5 = Handlebars.compile($("#alertpage").html());
+   theTemplate6 = Handlebars.compile($("#parameterpage").html());
 
   // Add the compiled html to the page 初始畫面設定
-  $('#content-inner').html(theTemplate3());
+  $('#content-inner').html(theTemplate6());
 });
 </script>
 
@@ -625,7 +1341,53 @@ var openflag=true;////讀是否開啟之值
       });
      $("#navbar").hide();   
 
+
+
+/*可滑動之navbar 開始*/
+document.getElementById('navbar').onmousedown = function () {
+    _drag_init(this);
+    return false;
+};
+
+var selected = null, // Object of the element to be moved
+    x_pos = 0, y_pos = 0, // Stores x & y coordinates of the mouse pointer
+    x_elem = 0, y_elem = 0; // Stores top, left values (edge) of the element
+
+// Will be called when user starts dragging an element
+function _drag_init(elem) {
+    // Store the object of the element which needs to be moved
+    selected = elem;
+    x_elem = x_pos - selected.offsetLeft;
+    y_elem = y_pos - selected.offsetTop;
+}
+
+// Will be called when user dragging an element
+function _move_elem(e) {
+    x_pos = document.all ? window.event.clientX : e.pageX;
+    y_pos = document.all ? window.event.clientY : e.pageY;
+    if (selected !== null) {
+        selected.style.left = (x_pos - x_elem) + 'px';
+        selected.style.top = (y_pos - y_elem) + 'px';
+    }
+}
+
+// Destroy the object when we are done
+function _destroy() {
+    selected = null;
+}
+
+// Bind the functions...
+
+
+document.onmousemove = _move_elem;
+document.onmouseup = _destroy;
+
+/*可滑動之navbar 結束 */
+
+
    });
+
+
 
 
    </script>
@@ -640,7 +1402,7 @@ var openflag=true;////讀是否開啟之值
 <div id="content">
   <!-- default layout -->
 
-            <div  style="position:absolute;width:500px;height:75px;background-color:white;padding:10px;border-style: solid;">
+            <div  style="position:absolute;width:500px;height:50px;background-color:white;padding:10px;border-style: solid;">
 
             <span style="font-size:25px;"> X: </span>
             <input style="width:75px;border:0" readonly="readonly"></input>
@@ -686,15 +1448,16 @@ var openflag=true;////讀是否開啟之值
 
 
 
-          <div  id="navbar" style="position:absolute;display:inline-block;width:250px;height:auto;right:200px;top:150px;background-color:gray;padding:15px;z-index:10000;">
+          <div  id="navbar" style="position:absolute;display:inline-block;width:250px;height:auto;right:200px;top:150px;background: linear-gradient(#00FFCC,yellow);;padding:15px;z-index:10000;border-style: solid;
+    border-color: black;border-radius: 55px;">
                
                 <input  type="button" value="狀態頁"  onclick="$('#content-inner').html(theTemplate());"  style="width:168px; height:38px; margin-left:45px; margin-top:50px; font-size:20px; font-weight:bold;"/>
                 <input  type="button" value="手動頁" onclick="$('#content-inner').html(theTemplate1());" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
                 <input  type="button" value="編輯頁" onclick="" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
                 <input  type="button" value="影像頁" onclick="$('#content-inner').html(theTemplate3());" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
-                <input  type="button" value="監視頁" onclick="" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
-                <input  type="button" value="警報頁" onclick="" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
-                <input  type="button" value="參數頁" onclick="" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
+                <input  type="button" value="監視頁" onclick="$('#content-inner').html(theTemplate4());" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
+                <input  type="button" value="警報頁" onclick="$('#content-inner').html(theTemplate5());" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
+                <input  type="button" value="參數頁" onclick="$('#content-inner').html(theTemplate6());" style="width:168px; height:38px; margin-left:45px; margin-top:20px; font-size:20px; font-weight:bold;"/>
           </div>
         </div>
 
@@ -704,6 +1467,7 @@ var openflag=true;////讀是否開啟之值
 
 
 </div>
+
 </body>
 
 </html>
